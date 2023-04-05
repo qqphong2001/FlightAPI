@@ -22,10 +22,6 @@ namespace dotnetAPI.Controllers
         public IActionResult GetAll()
         {
 
-        
-
-
-
             var flight = _db.Flights.Join(_db.Statuss,
                 flights => flights.StatusId,
                 status => status.Id,

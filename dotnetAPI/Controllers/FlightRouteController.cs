@@ -109,7 +109,22 @@ namespace dotnetAPI.Controllers
 
         public IActionResult Get(int id)
         {
-            var flight = _db.FlightsRoute.Find(id);
+            var flight = _db.FlightsRoute.Join(
+               _db.FlightRouteDetail,
+               route => route.Id,
+               detail => detail.FlightRouteId,
+               (route, detail) => new { route = route, detail = detail }).Join(
+               _db.airPorts,
+               routebegin => routebegin.detail.BeginAirPortId,
+           begin => begin.Id,
+               (routebegin, begin) => new { route = routebegin.route, detail = routebegin.detail, begin = begin }).
+               Join(
+               _db.airPorts,
+               routeend => routeend.detail.EndAirPortId,
+               end => end.Id,
+               (routeend, end) => new { route = routeend.route, detail = routeend.detail, begin = routeend.begin, end = end }).
+        
+               ToList();
 
             return Ok(flight);
 

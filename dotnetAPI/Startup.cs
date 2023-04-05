@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Cors;
 namespace dotnetAPI
 {
     public class Startup
@@ -41,6 +41,16 @@ namespace dotnetAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "dotnetAPI", Version = "v1" });
             });
             services.AddTransient<session>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
           
@@ -81,7 +91,7 @@ namespace dotnetAPI
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("CorsPolicy");
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
