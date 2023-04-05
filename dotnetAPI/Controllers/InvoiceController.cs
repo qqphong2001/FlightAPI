@@ -21,7 +21,7 @@ namespace dotnetAPI.Controllers
 
         private readonly HttpContext HttpContext;
         private readonly session _session;
-        public InvoiceController(ApplicationDbContext db, IHttpContextAccessor context , session session)
+        public InvoiceController(ApplicationDbContext db, IHttpContextAccessor context, session session)
         {
             _context = context;
             HttpContext = context.HttpContext;
@@ -32,33 +32,33 @@ namespace dotnetAPI.Controllers
         public IActionResult Create()
         {
             var session = _session.GetCartItems();
-            
-          
 
-           var all = session.Join(
-                _db.TempCustomer,
-                ticket => ticket.ticket.tempId,
-                customer => customer.Id,
-                (ticket, customer) => new { ticket  = ticket  , customer= customer })
-                .Join(
-                _db.nationCCID,
-                ticketCCID => ticketCCID.customer.nationCCIDID,
-                CCID => CCID.Id,
-                (ticketCCID, CCID )=> new { ticket = ticketCCID.ticket, customer = ticketCCID.customer , CCID = CCID }).
-                Join(
-                _db.Flights,
-                ticketFlight => ticketFlight.ticket.ticket.FlightID,
-                flight => flight.Id,
-                (ticketFlight, flight) => new { ticket = ticketFlight.ticket, customer = ticketFlight.customer, CCID = ticketFlight.CCID,flight = flight}).
-                Join(
-                _db.Prices,
-                ticketPrice => ticketPrice.flight.Id,
-                price => price.FlightID,
-                (ticketPrice, price) => new { ticket = ticketPrice.ticket, customer = ticketPrice.customer, CCID = ticketPrice.CCID, flight = ticketPrice.flight ,price = price}
-                ).ToList();
+
+
+            var all = session.Join(
+                 _db.TempCustomer,
+                 ticket => ticket.ticket.tempId,
+                 customer => customer.Id,
+                 (ticket, customer) => new { ticket = ticket, customer = customer })
+                 .Join(
+                 _db.nationCCID,
+                 ticketCCID => ticketCCID.customer.nationCCIDID,
+                 CCID => CCID.Id,
+                 (ticketCCID, CCID) => new { ticket = ticketCCID.ticket, customer = ticketCCID.customer, CCID = CCID }).
+                 Join(
+                 _db.Flights,
+                 ticketFlight => ticketFlight.ticket.ticket.FlightID,
+                 flight => flight.Id,
+                 (ticketFlight, flight) => new { ticket = ticketFlight.ticket, customer = ticketFlight.customer, CCID = ticketFlight.CCID, flight = flight }).
+                 Join(
+                 _db.Prices,
+                 ticketPrice => ticketPrice.flight.Id,
+                 price => price.FlightID,
+                 (ticketPrice, price) => new { ticket = ticketPrice.ticket, customer = ticketPrice.customer, CCID = ticketPrice.CCID, flight = ticketPrice.flight, price = price }
+                 ).ToList();
             float total = 0;
 
-            foreach(var item in all)
+            foreach (var item in all)
             {
                 total += item.price.price;
             }
@@ -88,8 +88,9 @@ namespace dotnetAPI.Controllers
 
 
 
-            var Invoice = new Invoice
+                var Invoices = new Invoice
             {
+              
                 PaymentDate = DateTime.Now,
                 Amount = total,
                 PaymentStatus = "Đã thanh toán",
@@ -98,14 +99,15 @@ namespace dotnetAPI.Controllers
 
             };
 
-            _db.Invoice.Add(Invoice);
+            _db.Invoice.Add(Invoices);
             _db.SaveChanges();
 
+            _session.ClearCart();
             return Ok(new
             {
                 Success = true,
             }
-                
+
                 );
 
         }

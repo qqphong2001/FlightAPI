@@ -5,9 +5,8 @@ namespace dotnetAPI.Model
 {
     public class Invoice
     {
-        [Key]
+        [Key]         
         public int Id { get; set; }
-
         public DateTime PaymentDate { get; set; }
 
         public float Amount { get; set; }

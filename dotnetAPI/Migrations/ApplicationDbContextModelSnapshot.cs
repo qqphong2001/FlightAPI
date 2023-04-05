@@ -131,8 +131,8 @@ namespace dotnetAPI.Migrations
                     b.Property<string>("Distance")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FlightTime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FlightTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

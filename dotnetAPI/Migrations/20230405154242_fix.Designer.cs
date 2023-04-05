@@ -10,8 +10,8 @@ using dotnetAPI.AppDbContext;
 namespace dotnetAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230404120228_add-v1")]
-    partial class addv1
+    [Migration("20230405154242_fix")]
+    partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,8 +133,8 @@ namespace dotnetAPI.Migrations
                     b.Property<string>("Distance")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FlightTime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FlightTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

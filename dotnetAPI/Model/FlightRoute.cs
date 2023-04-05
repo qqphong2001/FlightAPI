@@ -11,7 +11,7 @@ namespace dotnetAPI.Model
 
      
 
-        public DateTime FlightTime { get; set; }
+        public string FlightTime { get; set; }
 
 
 

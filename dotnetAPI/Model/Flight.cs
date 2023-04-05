@@ -22,7 +22,7 @@ namespace dotnetAPI.Model
         public int FlightRouteID { get; set; }
       public int AirLineId { get; set; }
         public DateTime DepartureTime { get; set;}
-
+            
         public DateTime timeFly { get; set; }
         public string CodeFlight { get; set; }
     }

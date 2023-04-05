@@ -5855,11 +5855,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dotnet\\dotnetAPI\\dotnetAPI\\dotnetAPI.csproj",
+      "projectUniqueName": "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj",
       "projectName": "dotnetAPI",
-      "projectPath": "C:\\Dotnet\\dotnetAPI\\dotnetAPI\\dotnetAPI.csproj",
+      "projectPath": "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Dotnet\\dotnetAPI\\dotnetAPI\\obj\\",
+      "outputPath": "C:\\Dotnet\\Flight\\dotnetAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
