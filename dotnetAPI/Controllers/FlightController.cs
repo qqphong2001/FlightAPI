@@ -35,12 +35,15 @@ namespace dotnetAPI.Controllers
                 flightRoute => flightRoute.flights.FlightRouteID,
                 route => route.Id,
                 (flightRoute, route) => new { flights = flightRoute.flights , status = flightRoute.status , route = route }
-                ).Join(
+                )
+                .
+                Join(
                 _db.Prices,
                 flightprice => flightprice.flights.Id,
                 price => price.FlightID,
-                (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route,price = price }
-                ).
+                (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route, price = price }
+                )
+                .
                 Join(
                 _db.AirLines,
                 flightLine => flightLine.flights.AirLineId,
@@ -63,7 +66,8 @@ namespace dotnetAPI.Controllers
                 flightEnd => flightEnd.detail.EndAirPortId,
                 end => end.Id,
                 (flightEnd, end) => new { flights = flightEnd.flights, status = flightEnd.status, route = flightEnd.route, price = flightEnd.price, airLine = flightEnd.airLine, detail = flightEnd.detail, begin = flightEnd.begin, end = end }
-                ).
+                )
+                .
                 ToList();
                 
            
