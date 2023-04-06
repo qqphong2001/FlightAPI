@@ -28,6 +28,30 @@ namespace dotnetAPI.Controllers
             _db = db;
             _session = session;
         }
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            var invoice = _db.Invoice.Join(
+                _db.Ticket,
+                invoice => invoice.idTicket,
+                ticket => ticket.Id,
+                (invoice , ticket) => new { invoice = invoice , ticket = ticket })
+                .Join(
+                _db.TempCustomer,
+                invoiceCus => invoiceCus.ticket.tempId,
+                tempCus => tempCus.Id, 
+                (invoiceCus, tempCus) => new { invoice = invoiceCus.invoice , ticket = invoiceCus.ticket , tempcustomer = tempCus }).
+                Join(
+                _db.nationCCID,
+                invoiceNation => invoiceNation.tempcustomer.nationCCIDID,
+                nation => nation.Id,
+                (invoiceNation, nation) => new { invoice = invoiceNation.invoice, ticket = invoiceNation.ticket, tempcustomer = invoiceNation.tempcustomer ,nation = nation }).ToList();
+                
+                ; 
+
+            return Ok(invoice);
+
+        }
         [HttpPost("Create")]
         public IActionResult Create()
         {
