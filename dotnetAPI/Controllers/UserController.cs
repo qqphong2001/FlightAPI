@@ -47,6 +47,20 @@ namespace dotnetAPI.Controllers
             });
         }
 
+        [HttpPost("Register")]
+        public IActionResult Register(User user)
+        {
+
+            _db.Users.Add(user);
+            _db.SaveChanges();
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "Tạo tài khoản thành công"
+            });
+        }
+
         private TokenModel Token(User obj)
         {
             var JwtToken = new JwtSecurityTokenHandler();
