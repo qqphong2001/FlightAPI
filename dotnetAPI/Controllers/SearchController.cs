@@ -25,45 +25,136 @@ namespace dotnetAPI.Controllers
         public IActionResult Get(int idBegin, int idEnd, DateTime timeFly)
         {
             var timeFlys = timeFly.Date;
-            var flight = _db.Flights.Join(_db.Statuss,
-              flights => flights.StatusId,
-              status => status.Id,
-              (flights, status) => new { flights = flights, status = status }
-              ).Join(
-              _db.FlightsRoute,
-              flightRoute => flightRoute.flights.FlightRouteID,
-              route => route.Id,
-              (flightRoute, route) => new { flights = flightRoute.flights, status = flightRoute.status, route = route }
-              ).Join(
-              _db.Prices,
-              flightprice => flightprice.flights.Id,
-              price => price.FlightID,
-              (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route, price = price }
-              ).
-              Join(
-              _db.AirLines,
-              flightLine => flightLine.flights.AirLineId,
-              airLine => airLine.Id,
-              (flightLine, airLine) => new { flights = flightLine.flights, status = flightLine.status, route = flightLine.route, price = flightLine.price, airLine = airLine }
-              ).
-              Join(
-              _db.FlightRouteDetail,
-              flightdetail => flightdetail.route.Id,
-              detail => detail.FlightRouteId,
-              (flightdetail, detail) => new { flights = flightdetail.flights, status = flightdetail.status, route = flightdetail.route, price = flightdetail.price, airLine = flightdetail.airLine, detail = detail }
-              ).
-              Join(
+             var flight = _db.Flights.Join(_db.Statuss,
+            flights => flights.StatusId,
+            status => status.Id,
+            (flights, status) => new { flights = flights, status = status }
+            ).Join(
+            _db.FlightsRoute,
+            flightRoute => flightRoute.flights.FlightRouteID,
+            route => route.Id,
+            (flightRoute, route) => new { flights = flightRoute.flights, status = flightRoute.status, route = route }
+            ).Join(
+            _db.Prices,
+            flightprice => flightprice.flights.Id,
+            price => price.FlightID,
+            (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route, price = price }
+            ).
+            Join(
+            _db.AirLines,
+            flightLine => flightLine.flights.AirLineId,
+            airLine => airLine.Id,
+            (flightLine, airLine) => new { flights = flightLine.flights, status = flightLine.status, route = flightLine.route, price = flightLine.price, airLine = airLine }
+            ).
+            Join(
+            _db.FlightRouteDetail,
+            flightdetail => flightdetail.route.Id,
+            detail => detail.FlightRouteId,
+            (flightdetail, detail) => new { flights = flightdetail.flights, status = flightdetail.status, route = flightdetail.route, price = flightdetail.price, airLine = flightdetail.airLine, detail = detail }
+            ).
+            Join(
+            _db.airPorts,
+            flightBegin => flightBegin.detail.BeginAirPortId,
+            begin => begin.Id,
+            (flightBegin, begin) => new { flights = flightBegin.flights, status = flightBegin.status, route = flightBegin.route, price = flightBegin.price, airLine = flightBegin.airLine, detail = flightBegin.detail, begin = begin }
+            ).Join(
               _db.airPorts,
-              flightBegin => flightBegin.detail.BeginAirPortId,
-              begin => begin.Id,
-              (flightBegin, begin) => new { flights = flightBegin.flights, status = flightBegin.status, route = flightBegin.route, price = flightBegin.price, airLine = flightBegin.airLine, detail = flightBegin.detail, begin = begin }
-              ).Join(
-                _db.airPorts,
-              flightEnd => flightEnd.detail.EndAirPortId,
-              end => end.Id,
-              (flightEnd, end) => new { flights = flightEnd.flights, status = flightEnd.status, route = flightEnd.route, price = flightEnd.price, airLine = flightEnd.airLine, detail = flightEnd.detail, begin = flightEnd.begin, end = end }
-              ).Where(x => x.detail.BeginAirPortId == idBegin && x.detail.EndAirPortId == idEnd && x.flights.ArrivalTime.Date == timeFlys).
-              ToList();
+            flightEnd => flightEnd.detail.EndAirPortId,
+            end => end.Id,
+            (flightEnd, end) => new { flights = flightEnd.flights, status = flightEnd.status, route = flightEnd.route, price = flightEnd.price, airLine = flightEnd.airLine, detail = flightEnd.detail, begin = flightEnd.begin, end = end }
+            ).Where(x => x.detail.BeginAirPortId == idBegin && x.detail.EndAirPortId == idEnd && x.flights.ArrivalTime.Date == timeFlys).
+            ToList();
+
+
+
+
+            if (idBegin != 0 && idEnd != 0 && timeFlys == DateTime.Parse("0001/01/01"))
+            {
+             flight = _db.Flights.Join(_db.Statuss,
+            flights => flights.StatusId,
+            status => status.Id,
+            (flights, status) => new { flights = flights, status = status }
+            ).Join(
+            _db.FlightsRoute,
+            flightRoute => flightRoute.flights.FlightRouteID,
+            route => route.Id,
+            (flightRoute, route) => new { flights = flightRoute.flights, status = flightRoute.status, route = route }
+            ).Join(
+            _db.Prices,
+            flightprice => flightprice.flights.Id,
+            price => price.FlightID,
+            (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route, price = price }
+            ).
+            Join(
+            _db.AirLines,
+            flightLine => flightLine.flights.AirLineId,
+            airLine => airLine.Id,
+            (flightLine, airLine) => new { flights = flightLine.flights, status = flightLine.status, route = flightLine.route, price = flightLine.price, airLine = airLine }
+            ).
+            Join(
+            _db.FlightRouteDetail,
+            flightdetail => flightdetail.route.Id,
+            detail => detail.FlightRouteId,
+            (flightdetail, detail) => new { flights = flightdetail.flights, status = flightdetail.status, route = flightdetail.route, price = flightdetail.price, airLine = flightdetail.airLine, detail = detail }
+            ).
+            Join(
+            _db.airPorts,
+            flightBegin => flightBegin.detail.BeginAirPortId,
+            begin => begin.Id,
+            (flightBegin, begin) => new { flights = flightBegin.flights, status = flightBegin.status, route = flightBegin.route, price = flightBegin.price, airLine = flightBegin.airLine, detail = flightBegin.detail, begin = begin }
+            ).Join(
+              _db.airPorts,
+            flightEnd => flightEnd.detail.EndAirPortId,
+            end => end.Id,
+            (flightEnd, end) => new { flights = flightEnd.flights, status = flightEnd.status, route = flightEnd.route, price = flightEnd.price, airLine = flightEnd.airLine, detail = flightEnd.detail, begin = flightEnd.begin, end = end }
+            ).Where(x => x.detail.BeginAirPortId == idBegin && x.detail.EndAirPortId == idEnd).
+            ToList();
+            }
+            else if (idBegin != null && idEnd == 0 && timeFlys == DateTime.Parse("0001/01/01"))
+            {
+                flight = _db.Flights.Join(_db.Statuss,
+          flights => flights.StatusId,
+          status => status.Id,
+          (flights, status) => new { flights = flights, status = status }
+          ).Join(
+          _db.FlightsRoute,
+          flightRoute => flightRoute.flights.FlightRouteID,
+          route => route.Id,
+          (flightRoute, route) => new { flights = flightRoute.flights, status = flightRoute.status, route = route }
+          ).Join(
+          _db.Prices,
+          flightprice => flightprice.flights.Id,
+          price => price.FlightID,
+          (flightprice, price) => new { flights = flightprice.flights, status = flightprice.status, route = flightprice.route, price = price }
+          ).
+          Join(
+          _db.AirLines,
+          flightLine => flightLine.flights.AirLineId,
+          airLine => airLine.Id,
+          (flightLine, airLine) => new { flights = flightLine.flights, status = flightLine.status, route = flightLine.route, price = flightLine.price, airLine = airLine }
+          ).
+          Join(
+          _db.FlightRouteDetail,
+          flightdetail => flightdetail.route.Id,
+          detail => detail.FlightRouteId,
+          (flightdetail, detail) => new { flights = flightdetail.flights, status = flightdetail.status, route = flightdetail.route, price = flightdetail.price, airLine = flightdetail.airLine, detail = detail }
+          ).
+          Join(
+          _db.airPorts,
+          flightBegin => flightBegin.detail.BeginAirPortId,
+          begin => begin.Id,
+          (flightBegin, begin) => new { flights = flightBegin.flights, status = flightBegin.status, route = flightBegin.route, price = flightBegin.price, airLine = flightBegin.airLine, detail = flightBegin.detail, begin = begin }
+          ).Join(
+            _db.airPorts,
+          flightEnd => flightEnd.detail.EndAirPortId,
+          end => end.Id,
+          (flightEnd, end) => new { flights = flightEnd.flights, status = flightEnd.status, route = flightEnd.route, price = flightEnd.price, airLine = flightEnd.airLine, detail = flightEnd.detail, begin = flightEnd.begin, end = end }
+          ).Where(x => x.detail.BeginAirPortId == idBegin).
+          ToList();
+            }
+           
+
+          
 
 
             return Ok(flight);
