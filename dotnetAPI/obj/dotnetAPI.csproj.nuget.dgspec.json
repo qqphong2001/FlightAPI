@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC-PV\\Desktop\\maybay api\\maybayAPINew\\FlightAPI\\dotnetAPI\\dotnetAPI.csproj": {}
+    "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC-PV\\Desktop\\maybay api\\maybayAPINew\\FlightAPI\\dotnetAPI\\dotnetAPI.csproj": {
+    "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC-PV\\Desktop\\maybay api\\maybayAPINew\\FlightAPI\\dotnetAPI\\dotnetAPI.csproj",
+        "projectUniqueName": "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj",
         "projectName": "dotnetAPI",
-        "projectPath": "C:\\Users\\PC-PV\\Desktop\\maybay api\\maybayAPINew\\FlightAPI\\dotnetAPI\\dotnetAPI.csproj",
-        "packagesPath": "C:\\Users\\PC-PV\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC-PV\\Desktop\\maybay api\\maybayAPINew\\FlightAPI\\dotnetAPI\\obj\\",
+        "projectPath": "C:\\Dotnet\\Flight\\dotnetAPI\\dotnetAPI.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Dotnet\\Flight\\dotnetAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC-PV\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -79,7 +79,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -91,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
