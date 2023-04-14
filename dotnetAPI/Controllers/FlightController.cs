@@ -22,7 +22,8 @@ namespace dotnetAPI.Controllers
         public IActionResult GetAll()
         {
 
-            var flight = _db.Flights.Join(_db.Statuss,
+            var flight = _db.Flights.Join(
+                _db.Statuss,
                 flights => flights.StatusId,
                 status => status.Id,
                 (flights, status) => new { flights = flights , status = status }
@@ -57,7 +58,8 @@ namespace dotnetAPI.Controllers
                 flightBegin => flightBegin.detail.BeginAirPortId,
                 begin => begin.Id,
                 (flightBegin, begin) => new { flights = flightBegin.flights, status = flightBegin.status, route = flightBegin.route, price = flightBegin.price, airLine = flightBegin.airLine, detail = flightBegin.detail, begin = begin }
-                ).Join(
+                )
+                .Join(
                   _db.airPorts,
                 flightEnd => flightEnd.detail.EndAirPortId,
                 end => end.Id,
