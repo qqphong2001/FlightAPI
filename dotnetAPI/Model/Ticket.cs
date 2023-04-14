@@ -9,7 +9,7 @@ namespace dotnetAPI.Model
         [Key]
         public int Id { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.Now;
 
         public int ticketclassId { get; set; }
 

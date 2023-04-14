@@ -32,7 +32,7 @@ namespace dotnetAPI.Controllers
             begin => begin.Id,
                 (routebegin , begin) => new { route = routebegin.route, detail = routebegin.detail,begin = begin }).
                 Join(
-                _db.airPorts,
+                _db.airPorts,   
                 routeend => routeend.detail.EndAirPortId,
                 end => end.Id,
                 (routeend , end) => new { route = routeend.route, detail = routeend.detail, begin = routeend.begin,end =end }).

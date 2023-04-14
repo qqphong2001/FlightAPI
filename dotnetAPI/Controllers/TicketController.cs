@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 
 namespace dotnetAPI.Controllers
 {
@@ -34,14 +35,8 @@ namespace dotnetAPI.Controllers
         [HttpPost("Create")]
         public IActionResult Create(TicketCustomerInput obj)
         {
-
-
-
-
             _db.TempCustomer.Add(obj.customer);
             _db.SaveChanges();
-
-
             obj.Ticket.tempId = obj.customer.Id;
 
             var ticket = _db.Ticket.Add(obj.Ticket);
@@ -52,8 +47,73 @@ namespace dotnetAPI.Controllers
 
             _Session.SaveCartSession(session);
 
+            var all = session.Join(
+                 _db.TempCustomer,
+                 ticket => ticket.ticket.tempId,
+                 customer => customer.Id,
+                 (ticket, customer) => new { ticket = ticket, customer = customer })
+                 .Join(
+                 _db.nationCCID,
+                 ticketCCID => ticketCCID.customer.nationCCIDID,
+                 CCID => CCID.Id,
+                 (ticketCCID, CCID) => new { ticket = ticketCCID.ticket, customer = ticketCCID.customer, CCID = CCID }).
+                 Join(
+                 _db.Flights,
+                 ticketFlight => ticketFlight.ticket.ticket.FlightID,
+                 flight => flight.Id,
+                 (ticketFlight, flight) => new { ticket = ticketFlight.ticket, customer = ticketFlight.customer, CCID = ticketFlight.CCID, flight = flight }).
+                 Join(
+                 _db.Prices,
+                 ticketPrice => ticketPrice.flight.Id,
+                 price => price.FlightID,
+                 (ticketPrice, price) => new { ticket = ticketPrice.ticket, customer = ticketPrice.customer, CCID = ticketPrice.CCID, flight = ticketPrice.flight, price = price }
+                 ).ToList();
+            float total = 0;
 
-            
+            foreach (var item in all)
+            {
+                total += item.price.price;
+            }
+
+
+            var One = session.Join(
+               _db.TempCustomer,
+               ticket => ticket.ticket.tempId,
+               customer => customer.Id,
+               (ticket, customer) => new { ticket = ticket, customer = customer })
+               .Join(
+               _db.nationCCID,
+               ticketCCID => ticketCCID.customer.nationCCIDID,
+               CCID => CCID.Id,
+               (ticketCCID, CCID) => new { ticket = ticketCCID.ticket, customer = ticketCCID.customer, CCID = CCID }).
+               Join(
+               _db.Flights,
+               ticketFlight => ticketFlight.ticket.ticket.FlightID,
+               flight => flight.Id,
+               (ticketFlight, flight) => new { ticket = ticketFlight.ticket, customer = ticketFlight.customer, CCID = ticketFlight.CCID, flight = flight }).
+               Join(
+               _db.Prices,
+               ticketPrice => ticketPrice.flight.Id,
+               price => price.FlightID,
+               (ticketPrice, price) => new { ticket = ticketPrice.ticket, customer = ticketPrice.customer, CCID = ticketPrice.CCID, flight = ticketPrice.flight, price = price }
+               ).FirstOrDefault();
+
+
+
+            var Invoices = new Invoice
+            {
+
+                PaymentDate = DateTime.Now,
+                Amount = total,
+                PaymentStatus = "Đã thanh toán",
+                CustomerName = One.CCID.lastName,
+                idTicket = One.ticket.ticket.Id
+
+            };
+
+            _db.Invoice.Add(Invoices);
+            _db.SaveChanges();
+
 
             return Ok(new
             {
