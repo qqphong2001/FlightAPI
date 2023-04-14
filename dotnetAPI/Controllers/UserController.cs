@@ -32,7 +32,7 @@ namespace dotnetAPI.Controllers
             
             if(user == null)
             {
-                return Ok(new
+                return Unauthorized(new
                 {
                     Success = false,
                     Message = "Tài khoản hoặc mật khẩu không đúng"
