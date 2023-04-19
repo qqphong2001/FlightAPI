@@ -12,6 +12,5 @@ namespace dotnetAPI.Model
         public string dob { get; set; }
         public string address { get; set; }
         public string Area { get; set; }
-
     }
 }
