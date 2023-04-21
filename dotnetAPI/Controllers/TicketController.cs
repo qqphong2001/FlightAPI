@@ -36,7 +36,7 @@ namespace dotnetAPI.Controllers
         public IActionResult Create(TicketCustomerInput obj)
         {
             _db.TempCustomer.Add(obj.customer);
-            _db.SaveChanges();
+                _db.SaveChanges();
             obj.Ticket.tempId = obj.customer.Id;
 
             var ticket = _db.Ticket.Add(obj.Ticket);
@@ -100,19 +100,19 @@ namespace dotnetAPI.Controllers
 
 
 
-            var Invoices = new Invoice
-            {
+            //var Invoices = new Invoice
+            //{
 
-                PaymentDate = DateTime.Now,
-                Amount = total,
-                PaymentStatus = "Đã thanh toán",
-                CustomerName = One.CCID.lastName,
-                idTicket = One.ticket.ticket.Id
+            //    PaymentDate = DateTime.Now,
+            //    Amount = total,
+            //    PaymentStatus = "Đã thanh toán",
+            //    CustomerName = One.CCID.lastName,
+            //    idTicket = One.ticket.ticket.Id
 
-            };
+            //};
 
-            _db.Invoice.Add(Invoices);
-            _db.SaveChanges();
+            //_db.Invoice.Add(Invoices);
+            //_db.SaveChanges();
 
 
             return Ok(new

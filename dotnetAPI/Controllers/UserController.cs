@@ -50,15 +50,13 @@ namespace dotnetAPI.Controllers
             var existingUser = _db.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
             if (existingUser == null)
             {
-<<<<<<< Updated upstream
+
                 return Unauthorized(new
                 {
                     Success = false,
                     Message = "Tài khoản hoặc mật khẩu không đúng"
                 });
-=======
-                return Unauthorized();
->>>>>>> Stashed changes
+
             }
 
             return Ok(new

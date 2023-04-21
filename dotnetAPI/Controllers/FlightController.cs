@@ -184,7 +184,7 @@ namespace dotnetAPI.Controllers
             return Ok(new
             {
                 Success = true,
-                Message = "Tạo chuyến bay thành công"
+                Message = "Cập nhật chuyến bay thành công"
             });
 
 
