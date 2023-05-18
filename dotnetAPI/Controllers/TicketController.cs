@@ -40,7 +40,7 @@ namespace dotnetAPI.Controllers
             obj.Ticket.tempId = obj.customer.Id;
 
             var ticket = _db.Ticket.Add(obj.Ticket);
-            _db.SaveChanges();
+              _db.SaveChanges();
 
             var session = _Session.GetCartItems();
             session.Add(new Session() { quantity = 1, ticket = obj.Ticket });
