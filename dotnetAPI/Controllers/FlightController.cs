@@ -3,6 +3,7 @@ using dotnetAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using System;
 using System.Linq;
 
 namespace dotnetAPI.Controllers
@@ -135,16 +136,28 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(Flight obj, [FromForm] FlightRouteDetail request)
+        public IActionResult Create(FlightDetailInputModel obj)
         {
-            var flight = _db.Flights.Add(obj);
+            var Flights = new Flight
+            {
+                Seats = obj.flight.Seats,
+                ArrivalTime = obj.flight.ArrivalTime,
+                StatusId = obj.flight.StatusId,
+                FlightRouteID = obj.flight.FlightRouteID,
+                AirLineId = obj.flight.AirLineId,
+                DepartureTime = obj.flight.DepartureTime,
+                timeFly = obj.flight.timeFly,
+                CodeFlight = obj.flight.CodeFlight
+            };
+
+            var flight = _db.Flights.Add(Flights);
             _db.SaveChanges();
 
             var FlightRouteDetail = new FlightRouteDetail
             {
                 FlightRouteId = flight.Entity.Id,
-                BeginAirPortId   = request.BeginAirPortId,
-                EndAirPortId = request.EndAirPortId,
+                BeginAirPortId   = obj.flightRouteDetail.BeginAirPortId,
+                EndAirPortId = obj.flightRouteDetail.EndAirPortId,
             };
 
             _db.FlightRouteDetail.Add(FlightRouteDetail);
