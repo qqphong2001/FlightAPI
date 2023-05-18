@@ -136,32 +136,23 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(FlightDetailInputModel obj)
+        public IActionResult Create(Flight obj)
         {
             var Flights = new Flight
             {
-                Seats = obj.flight.Seats,
-                ArrivalTime = obj.flight.ArrivalTime,
-                StatusId = obj.flight.StatusId,
-                FlightRouteID = obj.flight.FlightRouteID,
-                AirLineId = obj.flight.AirLineId,
-                DepartureTime = obj.flight.DepartureTime,
-                timeFly = obj.flight.timeFly,
-                CodeFlight = obj.flight.CodeFlight
+                Seats = obj.Seats,
+                ArrivalTime = obj.ArrivalTime,
+                StatusId = obj.StatusId,
+                FlightRouteID = obj.FlightRouteID,
+                AirLineId = obj.AirLineId,
+                DepartureTime = obj.DepartureTime,
+                timeFly = obj.timeFly,
+                CodeFlight = obj.CodeFlight
             };
 
             var flight = _db.Flights.Add(Flights);
             _db.SaveChanges();
 
-            var FlightRouteDetail = new FlightRouteDetail
-            {
-                FlightRouteId = flight.Entity.Id,
-                BeginAirPortId   = obj.flightRouteDetail.BeginAirPortId,
-                EndAirPortId = obj.flightRouteDetail.EndAirPortId,
-            };
-
-            _db.FlightRouteDetail.Add(FlightRouteDetail);
-            _db.SaveChanges();
 
 
             return Ok( new
