@@ -26,25 +26,46 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Validate  (Login obj)
+        //public IActionResult Validate  (Login obj)
+        //{
+        //    var user = _db.Users.FirstOrDefault(x => x.UserName == obj.UserName && x.Password == obj.Password);
+
+        //    if(user == null)
+        //    {
+        //        return Ok(new
+        //        {
+        //            Success = false,
+        //            Message = "Tài khoản hoặc mật khẩu không đúng"
+        //        });
+        //    }
+
+        //    return Ok(new
+        //    {
+        //        Success = true,
+        //        Message = "Đăng nhập thành công",
+        //        Data = Token(user)
+        //    });
+        public IActionResult Login([FromBody] User user)
         {
-            var user = _db.Users.FirstOrDefault(x => x.UserName == obj.UserName && x.Password == obj.Password);
-            
-            if(user == null)
+            var existingUser = _db.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
+            if (existingUser == null)
             {
-                return Ok(new
+
+                return Unauthorized(new
                 {
                     Success = false,
                     Message = "Tài khoản hoặc mật khẩu không đúng"
                 });
+
             }
 
             return Ok(new
             {
                 Success = true,
                 Message = "Đăng nhập thành công",
-                Data = Token(user)
-            });
+            }
+
+                );
         }
 
         [HttpPost("Register")]

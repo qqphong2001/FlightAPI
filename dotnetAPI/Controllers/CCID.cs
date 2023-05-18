@@ -1,4 +1,5 @@
 ﻿using dotnetAPI.AppDbContext;
+using dotnetAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +19,14 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpGet("Get")]
-        public IActionResult Get(int id) { 
-        
-           var ccid =  _db.nationCCID.Find(id);
-            
+        public nationCCID Get(int id)
+        {
 
-            return Ok(ccid);
+            var ccid =  _db.nationCCID.Find(id);
+
+
+            //return Ok(ccid);
+            return ccid;
 
 
         }

@@ -2,7 +2,9 @@
 using dotnetAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace dotnetAPI.Controllers
 {
@@ -29,25 +31,39 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(AirLine obj)
+        //public IActionResult Create(AirLine obj)
+        //{
+
+        //    var AirLines = _db.AirLines.Add(obj);
+        //    _db.SaveChanges();
+
+
+        //    return Ok(
+        //        new
+        //        {
+        //            Success = true,
+        //            Message = "Tạo mới thành công"
+        //        }
+
+        //        );
+
+        //}
+        public async Task<IActionResult> CreateAirline([FromBody] AirLine airline)
         {
-
-            var AirLines = _db.AirLines.Add(obj);
-            _db.SaveChanges();
-
+            _db.AirLines.Add(airline);
+            await _db.SaveChangesAsync();
 
             return Ok(
-                new
-                {
+                 new
+               {
                     Success = true,
-                    Message = "Tạo mới thành công"
-                }
-
-                );
-
+                   Message = "Tạo mới thành công"
+               }
+              );
         }
+    
 
-        [HttpPut("Update")]
+    [HttpPut("Update")]
 
         public IActionResult Update(AirLine obj)
         {
