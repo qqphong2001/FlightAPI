@@ -136,23 +136,32 @@ namespace dotnetAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(Flight obj)
+        public IActionResult Create(FlightPriceInputModel obj)
         {
             var Flights = new Flight
             {
-                Seats = obj.Seats,
-                ArrivalTime = obj.ArrivalTime,
-                StatusId = obj.StatusId,
-                FlightRouteID = obj.FlightRouteID,
-                AirLineId = obj.AirLineId,
-                DepartureTime = obj.DepartureTime,
-                timeFly = obj.timeFly,
-                CodeFlight = obj.CodeFlight
+                Seats = obj.flight.Seats,
+                ArrivalTime = obj.flight.ArrivalTime,
+                StatusId = obj.flight.StatusId,
+                FlightRouteID = obj.flight.FlightRouteID,
+                AirLineId = obj.flight.AirLineId,
+                DepartureTime = obj.flight.DepartureTime,
+                timeFly = obj.flight.timeFly,
+                CodeFlight = obj.flight.CodeFlight
             };
 
             var flight = _db.Flights.Add(Flights);
             _db.SaveChanges();
 
+            var Price = new Price
+            {
+                Date = DateTime.Now,
+                price = obj.price.price,
+                FlightID = flight.Entity.Id,
+
+            };
+            _db.Prices.Add(Price);
+            _db.SaveChanges();
 
 
             return Ok( new
