@@ -77,6 +77,33 @@ namespace dotnetAPI.Controllers
             return Ok(invoice);
 
         }
+
+        [HttpPost("UpdateInvoice")]
+        public IActionResult UpdateInvoice(int id, [FromBody] Invoice updatedInvoice)
+        {
+            try
+            {
+                var invoice = _db.Invoice.FirstOrDefault(i => i.Id == id);
+                if (invoice == null)
+                {
+                    return NotFound();
+                }
+
+                invoice.PaymentDate = updatedInvoice.PaymentDate;
+                invoice.Amount = updatedInvoice.Amount;
+                invoice.PaymentStatus = updatedInvoice.PaymentStatus;
+                invoice.CustomerName = updatedInvoice.CustomerName;
+
+                _db.SaveChanges();
+
+                return Ok(new { Success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
         [HttpPost("Create")]
         public IActionResult Create()
         {

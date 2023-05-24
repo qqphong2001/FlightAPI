@@ -48,6 +48,7 @@ namespace dotnetAPI.Controllers
         public IActionResult Login([FromBody] User user)
         {
             var existingUser = _db.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
+
             if (existingUser == null)
             {
 
@@ -61,11 +62,12 @@ namespace dotnetAPI.Controllers
 
             return Ok(new
             {
+                Token = Token(existingUser),
                 Success = true,
                 Message = "Đăng nhập thành công",
             }
 
-                );
+                ); ;
         }
 
         [HttpPost("Register")]
