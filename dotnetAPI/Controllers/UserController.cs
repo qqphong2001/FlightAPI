@@ -19,32 +19,30 @@ namespace dotnetAPI.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly AppSetting _Appsetting;
-        public UserController(ApplicationDbContext db,IOptionsMonitor<AppSetting> optionsMonitor) 
+        public UserController(ApplicationDbContext db, IOptionsMonitor<AppSetting> optionsMonitor)
         {
             _db = db;
             _Appsetting = optionsMonitor.CurrentValue;
         }
 
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+
+            var allUser = _db.Users.Select(u => new
+            {
+                u.Id,
+                u.Email,
+                u.UserName
+            }).ToList();
+
+            return Ok(
+                    allUser
+            );
+        }
+
         [HttpPost("Login")]
-        //public IActionResult Validate  (Login obj)
-        //{
-        //    var user = _db.Users.FirstOrDefault(x => x.UserName == obj.UserName && x.Password == obj.Password);
 
-        //    if(user == null)
-        //    {
-        //        return Ok(new
-        //        {
-        //            Success = false,
-        //            Message = "Tài khoản hoặc mật khẩu không đúng"
-        //        });
-        //    }
-
-        //    return Ok(new
-        //    {
-        //        Success = true,
-        //        Message = "Đăng nhập thành công",
-        //        Data = Token(user)
-        //    });
         public IActionResult Login([FromBody] User user)
         {
             var existingUser = _db.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
@@ -103,15 +101,16 @@ namespace dotnetAPI.Controllers
 
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),SecurityAlgorithms.HmacSha256Signature )
-             
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
+
             };
 
             var token = JwtToken.CreateToken(tokenDescription);
 
-            var accessToken =  JwtToken.WriteToken(token);
+            var accessToken = JwtToken.WriteToken(token);
 
-            return new TokenModel { 
+            return new TokenModel
+            {
                 AccessToken = accessToken,
                 RefreshToken = CreateRefreshToken()
             };
@@ -121,7 +120,7 @@ namespace dotnetAPI.Controllers
 
         private string CreateRefreshToken()
         {
-           var random = new byte[32];
+            var random = new byte[32];
             using (var ram = RandomNumberGenerator.Create())
             {
                 ram.GetBytes(random);
